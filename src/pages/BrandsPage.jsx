@@ -17,16 +17,22 @@ const BrandsPage = () => {
 
   useEffect(() => {
     const fetchBrands = async () => {
+      setLoading(true); // Activar carga inicial
+      setError(null);   // Limpiar errores previos
       try {
         const data = await marcaService.getAll();
         setBrands(data);
       } catch (err) {
         console.error('Error al cargar marcas:', err);
+        setError('Error al conectar con la base de datos o al cargar las marcas.');
+      } finally {
+        setLoading(false); // Siempre desactiva carga
       }
     };
 
     fetchBrands();
   }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -201,6 +207,7 @@ const BrandsPage = () => {
           </Form>
         </Card.Body>
       </Card>
+
 
       <Card className="shadow-sm border-primary">
         <Card.Header className="bg-primary text-white">

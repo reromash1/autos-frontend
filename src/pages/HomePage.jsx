@@ -66,27 +66,6 @@ const HomePage = () => {
             </div>
           </div>
           
-          <div className="bg-light p-4 rounded border">
-            <h4 className="text-primary mb-3">Estadísticas rápidas</h4>
-            <div className="d-flex justify-content-center gap-4">
-              <div className="bg-primary text-white p-3 rounded text-center" style={{ minWidth: '150px' }}>
-                <h5>Marcas</h5>
-                <h2 className="mb-0">15</h2>
-              </div>
-              <div className="bg-primary text-white p-3 rounded text-center" style={{ minWidth: '150px' }}>
-                <h5>Autos</h5>
-                <h2 className="mb-0">42</h2>
-              </div>
-              <div className="bg-primary text-white p-3 rounded text-center" style={{ minWidth: '150px' }}>
-                <h5>Clientes</h5>
-                <h2 className="mb-0">87</h2>
-              </div>
-              <div className="bg-primary text-white p-3 rounded text-center" style={{ minWidth: '150px' }}>
-                <h5>Ventas</h5>
-                <h2 className="mb-0">156</h2>
-              </div>
-            </div>
-          </div>
         </Card.Body>
       </Card>
     </div>

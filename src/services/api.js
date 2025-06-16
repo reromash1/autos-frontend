@@ -15,18 +15,22 @@ api.interceptors.response.use(
     let message = 'Error desconocido';
     
     if (error.response) {
-      // Maneja diferentes formatos de error del backend
-      message = error.response.data?.detail || 
-                error.response.data?.message || 
-                error.response.data?.title || 
-                error.response.statusText;
-      
-      // Maneja errores de validación de ASP.NET
-      if (error.response.status === 400 && error.response.data.errors) {
+      // Maneja diferentes formatos de error
+      if (typeof error.response.data === 'string') {
+        // Si el backend devuelve un string directo
+        message = error.response.data;
+      } else if (error.response.data?.errors) {
+        // Maneja errores de validación de ASP.NET
         const validationErrors = Object.values(error.response.data.errors)
           .flat()
           .join(', ');
         message = `Errores de validación: ${validationErrors}`;
+      } else {
+        // Maneja otros formatos de error
+        message = error.response.data?.detail || 
+                  error.response.data?.message || 
+                  error.response.data?.title || 
+                  error.response.statusText;
       }
     } else if (error.message) {
       message = error.message;
@@ -64,5 +68,7 @@ export const clienteService = {
 
 export const ventaService = {
   getAll: () => api.get('/Ventas'),
-  create: (venta) => api.post('/Ventas', venta)
+  create: (venta) => api.post('/Ventas', venta),
+  update: (id, venta) => api.put(`/Ventas/${id}`, { ventaId: id, ...venta }),
+  delete: (id) => api.delete(`/Ventas/${id}`)
 };

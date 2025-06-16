@@ -49,15 +49,15 @@ const BrandsPage = () => {
           nombre: formData.nombre,
           descripcion: formData.descripcion
         });
-        
-        const updatedBrands = brands.map(brand => 
-          brand.marcaId === editingId ? { 
-            ...brand, 
+
+        const updatedBrands = brands.map(brand =>
+          brand.marcaId === editingId ? {
+            ...brand,
             nombre: formData.nombre,
             descripcion: formData.descripcion
           } : brand
         );
-        
+
         setBrands(updatedBrands);
         setSuccess(true);
         setEditingId(null);
@@ -66,17 +66,17 @@ const BrandsPage = () => {
           nombre: formData.nombre,
           descripcion: formData.descripcion
         });
-        
+
         setBrands([...brands, newBrand]);
         setSuccess(true);
       }
-      
+
       setFormData({
         marcaId: null,
         nombre: '',
         descripcion: ''
       });
-      
+
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError(err || (editingId ? 'Error al actualizar la marca' : 'Error al crear la marca'));
@@ -100,8 +100,10 @@ const BrandsPage = () => {
       try {
         await marcaService.delete(id);
         setBrands(brands.filter(brand => brand.marcaId !== id));
+        setError(null); // Limpiar errores previos
       } catch (err) {
-        setError('Error al eliminar la marca: ' + err);
+        // Mostrar el mensaje de error específico del backend
+        setError(err);
         console.error(err);
       }
     }
@@ -119,7 +121,8 @@ const BrandsPage = () => {
   return (
     <Container className="mt-4">
       <h2 className="mb-4 text-primary">Gestión de Marcas</h2>
-      
+
+
       <Card className="shadow-sm mb-4 border-primary">
         <Card.Header className="bg-primary text-white">
           <Card.Title className="mb-0">
@@ -143,7 +146,7 @@ const BrandsPage = () => {
                   />
                 </Form.Group>
               </Col>
-              
+
               <Col md={5}>
                 <Form.Group className="mb-3">
                   <Form.Label>Descripción</Form.Label>
@@ -157,24 +160,24 @@ const BrandsPage = () => {
                   />
                 </Form.Group>
               </Col>
-              
-              <Col md={2} className="d-flex align-items-end">
-                <div className="d-flex w-100">
+
+              <Col md={2} className="d-flex">
+                <div className="mt-auto w-100">
                   {editingId && (
-                    <Button 
-                      variant="secondary" 
-                      className="me-2 flex-grow-1"
+                    <Button
+                      variant="secondary"
+                      className="me-2 w-100 mb-2"
                       onClick={handleCancelEdit}
                       disabled={loading}
                     >
                       Cancelar
                     </Button>
                   )}
-                  <Button 
-                    variant={editingId ? "primary" : "success"} 
+                  <Button
+                    variant={editingId ? "primary" : "success"}
                     type="submit"
                     disabled={loading}
-                    className="flex-grow-1 fw-bold"
+                    className="w-100 fw-bold"
                   >
                     {loading ? (
                       <>
@@ -185,8 +188,10 @@ const BrandsPage = () => {
                   </Button>
                 </div>
               </Col>
+
+
             </Row>
-            
+
             {error && <Alert variant="danger">{error}</Alert>}
             {success && (
               <Alert variant="success">
@@ -196,7 +201,7 @@ const BrandsPage = () => {
           </Form>
         </Card.Body>
       </Card>
-      
+
       <Card className="shadow-sm border-primary">
         <Card.Header className="bg-primary text-white">
           <Card.Title className="mb-0">Marcas Registradas</Card.Title>
@@ -226,16 +231,16 @@ const BrandsPage = () => {
                       <td className="fw-bold">{brand.nombre}</td>
                       <td>{brand.descripcion || '-'}</td>
                       <td>
-                        <Button 
-                          variant="outline-primary" 
-                          size="sm" 
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
                           className="me-2"
                           onClick={() => handleEdit(brand)}
                         >
                           <i className="bi bi-pencil"></i> Editar
                         </Button>
-                        <Button 
-                          variant="outline-danger" 
+                        <Button
+                          variant="outline-danger"
                           size="sm"
                           onClick={() => handleDelete(brand.marcaId)}
                         >
